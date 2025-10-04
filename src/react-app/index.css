@@ -1,0 +1,7 @@
+@import "terminal.css";
+
+/* Override terminal.css backticks for inline code */
+code::before,
+code::after {
+  content: "" !important;
+}

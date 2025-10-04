@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import Markdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
 
 export default function Chat() {
   const { owner, repo } = useParams<{ owner: string; repo: string }>();
@@ -9,7 +11,7 @@ export default function Chat() {
     {
       type: "bot",
       content:
-        "Based on the repository code, authentication is configured in src/auth/config.ts. You'll need to set up environment variables and install the required dependencies.",
+        "Based on the repository code, authentication is configured in `src/auth/config.ts`. You'll need to set up environment variables and install the required dependencies.\n\n```typescript\nconst config = {\n  apiKey: process.env.API_KEY,\n  authUrl: 'https://auth.example.com'\n};\n```",
     },
   ]);
 
@@ -18,13 +20,13 @@ export default function Chat() {
       e.preventDefault();
       if (!input.trim()) return;
 
-      // Add user message and fake bot response
       setMessages([
         ...messages,
         { type: "user", content: input },
         {
           type: "bot",
-          content: "This is a hardcoded bot response for demo purposes.",
+          content:
+            "Here's an example:\n\n```javascript\nfunction hello() {\n  console.log('Hello, world!');\n}\n```",
         },
       ]);
       setInput("");
@@ -40,8 +42,13 @@ export default function Chat() {
       <div style={{ marginTop: "20px", fontFamily: "monospace" }}>
         {messages.map((msg, i) => (
           <div key={i} style={{ lineHeight: "1.5" }}>
-            {msg.type === "user" ? "$ " : "> "}
-            {msg.content}
+            {msg.type === "user" ? (
+              <>$ {msg.content}</>
+            ) : (
+              <Markdown rehypePlugins={[rehypeHighlight]}>
+                {msg.content}
+              </Markdown>
+            )}
           </div>
         ))}
 
