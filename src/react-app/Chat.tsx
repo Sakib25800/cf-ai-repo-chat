@@ -39,9 +39,9 @@ export default function Chat() {
         {owner}/{repo}
       </h3>
 
-      <div style={{ marginTop: "20px", fontFamily: "monospace" }}>
+      <div className="mt-5 font-mono">
         {messages.map((msg, i) => (
-          <div key={i} style={{ lineHeight: "1.5" }}>
+          <div key={i} className="leading-[1.5]">
             {msg.type === "user" ? (
               <>$ {msg.content}</>
             ) : (
@@ -52,7 +52,7 @@ export default function Chat() {
           </div>
         ))}
 
-        <div style={{ lineHeight: "1.5" }}>
+        <div className="leading-[1.5]">
           ${" "}
           <input
             type="text"

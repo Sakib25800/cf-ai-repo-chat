@@ -1,4 +1,5 @@
-@import "terminal.css";
+@import "tailwindcss";
+@import "terminal.css/dist/terminal.min.css";
 
 /* Override terminal.css backticks for inline code */
 code::before,

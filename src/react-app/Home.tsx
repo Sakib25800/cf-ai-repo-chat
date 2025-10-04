@@ -34,15 +34,8 @@ export default function Home() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-      }}
-    >
-      <div style={{ width: "100%", maxWidth: "500px", padding: "20px" }}>
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="w-full max-w-xl px-5">
         <form onSubmit={handleSubmit}>
           <fieldset>
             <legend>Enter GitHub Repository</legend>
@@ -56,7 +49,7 @@ export default function Home() {
                 onChange={(e) => setRepo(e.target.value)}
                 disabled={loading}
               />
-              {error && <small style={{ color: "red" }}>{error}</small>}
+              {error && <small className="text-red-600">{error}</small>}
             </div>
             <button
               type="submit"
