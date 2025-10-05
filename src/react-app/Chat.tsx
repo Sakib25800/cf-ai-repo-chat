@@ -41,7 +41,7 @@ export default function Chat() {
 
       <div className="mt-5 font-mono">
         {messages.map((msg, i) => (
-          <div key={i} className="leading-[1.5]">
+          <div key={i} className="leading-[1.5] mb-3">
             {msg.type === "user" ? (
               <>$ {msg.content}</>
             ) : (
