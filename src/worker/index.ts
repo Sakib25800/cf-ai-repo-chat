@@ -1,25 +1,39 @@
-import { Hono } from "hono";
 import { Octokit } from "octokit";
 
-const app = new Hono<{ Bindings: Env }>();
+/**
+ * Worker entry point that routes incoming requests to the appropriate handler
+ */
+export default {
+  async fetch(request: Request, env: Env) {
+    const url = new URL(request.url);
 
-app.get("/api/", (c) => c.json({ name: "Cloudflare" }));
+    // Route: GET /api/
+    if (url.pathname === "/api/" && request.method === "GET") {
+      return Response.json({ name: "Cloudflare" });
+    }
 
-app.get("/api/validate-repo/:owner/:repo", async (c) => {
-  const { owner, repo } = c.req.param();
-
-  try {
-    const octokit = new Octokit({
-      auth: c.env.GITHUB_TOKEN,
-    });
-    await octokit.rest.repos.get({ owner, repo });
-    return c.json({ valid: true });
-  } catch {
-    return c.json(
-      { valid: false, error: "Failed to validate repository" },
-      500,
+    // Route: GET /api/validate-repo/:owner/:repo
+    const validateRepoMatch = url.pathname.match(
+      /^\/api\/validate-repo\/([^/]+)\/([^/]+)$/,
     );
-  }
-});
+    if (validateRepoMatch && request.method === "GET") {
+      const [, owner, repo] = validateRepoMatch;
 
-export default app;
+      try {
+        const octokit = new Octokit({
+          auth: env.GITHUB_TOKEN,
+        });
+        await octokit.rest.repos.get({ owner, repo });
+        return Response.json({ valid: true });
+      } catch {
+        return Response.json(
+          { valid: false, error: "Failed to validate repository" },
+          { status: 500 },
+        );
+      }
+    }
+
+    // 404 for unmatched routes
+    return new Response("Not found", { status: 404 });
+  },
+} satisfies ExportedHandler<Env>;
