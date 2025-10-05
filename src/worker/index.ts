@@ -7,11 +7,6 @@ export default {
   async fetch(request: Request, env: Env) {
     const url = new URL(request.url);
 
-    // Route: GET /api/
-    if (url.pathname === "/api/" && request.method === "GET") {
-      return Response.json({ name: "Cloudflare" });
-    }
-
     // Route: GET /api/validate-repo/:owner/:repo
     const validateRepoMatch = url.pathname.match(
       /^\/api\/validate-repo\/([^/]+)\/([^/]+)$/,
