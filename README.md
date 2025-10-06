@@ -14,6 +14,10 @@ I wanted to use the GitHub MCP server, but it isn’t compatible with Cloudflare
 
 I do not have a PROMPTS.md, but instead included the prompts in the commits where I used an AI. For most commits, I prompted Claude Code to generate base code and then refined it manually. Some commits involved multiple prompts, while others were smaller fixes where I only included the main prompt used.
 
+## Tech Stack
+
+This proejct uses Cloudflare Workers, Agents, and Durable Objects and was built with Hono, React and Vite.
+
 ## Development
 
 Install dependencies:
