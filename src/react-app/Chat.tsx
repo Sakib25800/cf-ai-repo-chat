@@ -32,6 +32,12 @@ export default function Chat() {
     const message = agentInput;
     setAgentInput("");
 
+    // Check if the message is the clear command
+    if (message.trim() === "clear") {
+      clearHistory();
+      return;
+    }
+
     // Send message to agent
     await sendMessage({
       role: "user",
@@ -59,28 +65,9 @@ export default function Chat() {
 
   return (
     <div className="container">
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <h3>
-          {owner}/{repo}
-        </h3>
-        <button
-          onClick={clearHistory}
-          style={{
-            background: "transparent",
-            border: "1px solid",
-            cursor: "pointer",
-            padding: "4px 8px",
-          }}
-        >
-          clear
-        </button>
-      </div>
+      <h3>
+        {owner}/{repo}
+      </h3>
 
       <div className="mt-5 font-mono">
         {agentMessages.map((msg, i) => {
