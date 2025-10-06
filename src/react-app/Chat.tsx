@@ -25,23 +25,19 @@ export default function Chat() {
     e.preventDefault();
     if (!agentInput.trim()) return;
 
-    const message = agentInput;
     setAgentInput("");
 
-    // Check if the message is the clear command
-    if (message.trim() === "clear") {
+    if (agentInput.trim() === "clear") {
       clearHistory();
       return;
     }
 
-    // Send message to agent
     await sendMessage({
       role: "user",
-      parts: [{ type: "text", text: message }],
+      parts: [{ type: "text", text: agentInput }],
     });
   };
 
-  // Use the agent chat hook
   const {
     messages: agentMessages,
     addToolResult,
