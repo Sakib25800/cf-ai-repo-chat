@@ -177,7 +177,12 @@ export default function Chat() {
           );
         })}
 
-        {(status === "submitted" || status === "streaming") && (
+        {(status === "submitted" ||
+          (status === "streaming" &&
+            (!agentMessages.length ||
+              !agentMessages[agentMessages.length - 1]?.parts?.some(
+                (part) => part.type === "text" && part.text.trim(),
+              )))) && (
           <div className="leading-[1.5] mb-3" style={{ opacity: 0.7 }}>
             Thinking...
           </div>
