@@ -79,10 +79,6 @@ export default function Chat() {
 
   return (
     <div className="container">
-      <h3>
-        {owner}/{repo}
-      </h3>
-
       <div className="mt-5 font-mono">
         {agentMessages.map((msg, i) => {
           const isUser = msg.role === "user";
@@ -94,7 +90,9 @@ export default function Chat() {
                   return (
                     <div key={partIndex} className="leading-[1.5] mb-3">
                       {isUser ? (
-                        <>$ {part.text}</>
+                        <>
+                          agent@1.1.1.1 {repo} $ {part.text}
+                        </>
                       ) : (
                         <Markdown rehypePlugins={[rehypeHighlight]}>
                           {part.text}
@@ -183,7 +181,9 @@ export default function Chat() {
           className="leading-[1.5]"
           style={{ display: "flex", alignItems: "flex-start" }}
         >
-          <span style={{ flexShrink: 0, marginRight: "0.5em" }}>$</span>
+          <span style={{ flexShrink: 0, marginRight: "0.5em" }}>
+            agent@1.1.1.1 {repo} $
+          </span>
           <textarea
             ref={textareaRef}
             value={agentInput}
