@@ -69,7 +69,8 @@ export default function Chat() {
   const autoResize = () => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      const newHeight = Math.max(textareaRef.current.scrollHeight, 24); // 24px = 1.5em
+      textareaRef.current.style.height = `${newHeight}px`;
     }
   };
 
@@ -90,9 +91,14 @@ export default function Chat() {
                   return (
                     <div key={partIndex} className="leading-[1.5] mb-3">
                       {isUser ? (
-                        <>
-                          agent@1.1.1.1 {repo} $ {part.text}
-                        </>
+                        <div
+                          style={{ display: "flex", alignItems: "flex-start" }}
+                        >
+                          <span style={{ flexShrink: 0, marginRight: "0.5em" }}>
+                            agent@1.1.1.1 {repo} $
+                          </span>
+                          <span style={{ flex: 1 }}>{part.text}</span>
+                        </div>
                       ) : (
                         <Markdown rehypePlugins={[rehypeHighlight]}>
                           {part.text}
@@ -203,7 +209,7 @@ export default function Chat() {
               margin: 0,
               resize: "none",
               overflow: "hidden",
-              minHeight: "1.5em",
+              minHeight: "24px",
             }}
             autoFocus
           />
