@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAgent } from "agents/react";
 import { useAgentChat } from "agents/ai-react";
 import { isToolUIPart } from "ai";
@@ -20,10 +20,7 @@ export default function Chat() {
   });
 
   const [agentInput, setAgentInput] = useState("");
-
-  const handleAgentInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAgentInput(e.target.value);
-  };
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleAgentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,11 +54,28 @@ export default function Chat() {
   });
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !e.altKey) {
       e.preventDefault();
       handleAgentSubmit(e as unknown as React.FormEvent);
     }
+    // Alt+Enter (opt+enter) allows new line - no preventDefault needed
   };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAgentInput(e.target.value);
+    autoResize();
+  };
+
+  const autoResize = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  };
+
+  useEffect(() => {
+    autoResize();
+  }, [agentInput]);
 
   return (
     <div className="container">
@@ -165,25 +179,31 @@ export default function Chat() {
           </div>
         )}
 
-        <div className="leading-[1.5]">
-          ${" "}
-          <input
-            type="text"
+        <div
+          className="leading-[1.5]"
+          style={{ display: "flex", alignItems: "flex-start" }}
+        >
+          <span style={{ flexShrink: 0, marginRight: "0.5em" }}>$</span>
+          <textarea
+            ref={textareaRef}
             value={agentInput}
-            onChange={handleAgentInputChange}
+            onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             placeholder=""
+            rows={1}
             style={{
               border: 0,
               background: "transparent",
               outline: "none",
-              width: "calc(100% - 20px)",
+              flex: 1,
               fontFamily: "inherit",
               fontSize: "inherit",
               lineHeight: "inherit",
               padding: 0,
               margin: 0,
-              verticalAlign: "baseline",
+              resize: "none",
+              overflow: "hidden",
+              minHeight: "1.5em",
             }}
             autoFocus
           />
