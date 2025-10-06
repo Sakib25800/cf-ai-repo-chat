@@ -10,6 +10,9 @@ I did not have time to implement a RAG pipeline with indexing using Cloudflare�
 
 I wanted to use the GitHub MCP server, but it isn’t compatible with Cloudflare Agents since it’s built for IDE hosts and lacks the required HTTP/SSE transport and so I added the tools manually.
 
+## Prompts
+
+I do not have a PROMPTS.md, but instead included the prompts in the commits where I used an AI. For most commits, I prompted Claude Code to generate base code and then refined it manually. Some commits involved multiple prompts, while others were smaller fixes where I only included the main prompt used.
 
 ## Development
 
