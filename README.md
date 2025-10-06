@@ -8,7 +8,7 @@ Available at: https://cf-ai-repo-chat.sakibulislam25800.workers.dev
 
 I did not have time to implement a RAG pipeline with indexing using Cloudflare’s Vectorize service so for now, it simply uses the available tools.
 
-I wanted to use the GitHub MCP server, but it isn’t compatible with Cloudflare Agents since it’s built for IDE hosts and lacks the required HTTP/SSE transport and so I added the tools manually.
+I wanted to use the GitHub MCP server, but it isn’t compatible with Cloudflare Agents since it’s built for IDE hosts and lacks the required HTTP/SSE transport and so I added the tools manually. I wish I had more time to work on this mini project a little more and explore more of Cloudflare's services as this was pretty fun. 
 
 ## Prompts
 
