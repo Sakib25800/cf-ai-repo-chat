@@ -13,7 +13,6 @@ const toolsRequiringConfirmation: string[] = [];
 export default function Chat() {
   const { owner, repo } = useParams<{ owner: string; repo: string }>();
 
-  // Connect to the agent
   const agent = useAgent({
     agent: "chat",
     name: `${owner}::${repo}`,
@@ -58,7 +57,6 @@ export default function Chat() {
       e.preventDefault();
       handleAgentSubmit(e as unknown as React.FormEvent);
     }
-    // Alt+Enter (opt+enter) allows new line - no preventDefault needed
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -69,7 +67,7 @@ export default function Chat() {
   const autoResize = () => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
-      const newHeight = Math.max(textareaRef.current.scrollHeight, 24); // 24px = 1.5em
+      const newHeight = Math.max(textareaRef.current.scrollHeight, 24);
       textareaRef.current.style.height = `${newHeight}px`;
     }
   };
