@@ -12,6 +12,7 @@ import { APPROVAL } from "../shared";
 interface ToolContext {
   messages: ModelMessage[];
   toolCallId: string;
+  env?: Env;
 }
 
 function isValidToolName<K extends PropertyKey, T extends object>(
@@ -28,6 +29,7 @@ export async function processToolCalls<Tools extends ToolSet>({
   dataStream,
   messages,
   executions,
+  env,
 }: {
   tools: Tools; // used for type inference
   dataStream: UIMessageStreamWriter;
@@ -37,6 +39,7 @@ export async function processToolCalls<Tools extends ToolSet>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (args: any, context: ToolContext) => Promise<unknown>
   >;
+  env?: Env;
 }): Promise<UIMessage[]> {
   // Process all messages, not just the last one
   const processedMessages = await Promise.all(
@@ -55,8 +58,9 @@ export async function processToolCalls<Tools extends ToolSet>({
           ) as keyof typeof executions;
 
           // Only process tools that require confirmation (are in executions object) and are in 'input-available' state
-          if (!(toolName in executions) || part.state !== "input-available")
+          if (!(toolName in executions) || part.state !== "input-available") {
             return part;
+          }
 
           let result: unknown;
 
@@ -71,6 +75,7 @@ export async function processToolCalls<Tools extends ToolSet>({
               result = await toolInstance(part.input, {
                 messages: convertToModelMessages(messages),
                 toolCallId: part.toolCallId,
+                env: env,
               });
             } else {
               result = "Error: No execute function found on tool";

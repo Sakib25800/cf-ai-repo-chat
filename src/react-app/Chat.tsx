@@ -8,7 +8,6 @@ import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import { APPROVAL } from "../shared";
 
-// Empty array - no tools require confirmation in this implementation
 const toolsRequiringConfirmation: string[] = [];
 
 export default function Chat() {
@@ -17,7 +16,7 @@ export default function Chat() {
   // Connect to the agent
   const agent = useAgent({
     agent: "chat",
-    name: `${owner}-${repo}`,
+    name: `${owner}::${repo}`,
   });
 
   const [agentInput, setAgentInput] = useState("");
