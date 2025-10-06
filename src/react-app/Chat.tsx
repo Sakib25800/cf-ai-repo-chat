@@ -95,7 +95,7 @@ export default function Chat() {
                           style={{ display: "flex", alignItems: "flex-start" }}
                         >
                           <span style={{ flexShrink: 0, marginRight: "0.5em" }}>
-                            agent@1.1.1.1 {repo} $
+                            user@1.1.1.1 {repo} $
                           </span>
                           <span style={{ flex: 1 }}>{part.text}</span>
                         </div>
@@ -193,7 +193,7 @@ export default function Chat() {
           style={{ display: "flex", alignItems: "flex-start" }}
         >
           <span style={{ flexShrink: 0, marginRight: "0.5em" }}>
-            agent@1.1.1.1 {repo} $
+            user@1.1.1.1 {repo} $
           </span>
           <textarea
             ref={textareaRef}
